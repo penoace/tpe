@@ -8,7 +8,7 @@ use App\Models\ParetoModel;
 use App\Models\RcfaModel;
 use App\Models\FdtModel;
 
-class Rcfa extends BaseController
+class Fdt extends BaseController
 {
 
     public function index()
@@ -44,11 +44,11 @@ class Rcfa extends BaseController
         return view('Rcfa/index', $data);
     }
 
-    public function input()
+    public function input($id)
     {
 
-        $data['title'] = "Peta Input";
-        $data['breadcrumb_title'] = "Peta";
+        $data['title'] = "RCFA Detail";
+        $data['breadcrumb_title'] = "Detail RCFA";
 
         $data['breadcrumb']  =  array(
             array(
@@ -61,59 +61,38 @@ class Rcfa extends BaseController
             )
         );
 
+        $rcfa = new RcfaModel();
+        $rcfa->select('rcfa.*, peta.id_area, peta.rcfa ,peta.problem, area.area , users.username');
+        $rcfa->where('rcfa.id', $id);
+        $data['rcfa'] = $rcfa->join('peta', 'peta.id = rcfa.id_peta')->join('users', 'users.id = peta.id_pic')->join('area', 'area.id = peta.id_area')->first();
+
         $validation =  \Config\Services::validation();
         $validation->setRules([
-            'problem' => 'required',
-            'id_area' => 'required',
-            'effect' => 'required',
-            'pareto' => 'required',
-            'id_pic' => 'required',
-            'status' => 'required'
+
+            'target' => 'required',
+            'id_pic' => 'required'
         ]);
         $isDataValid = $validation->withRequest($this->request)->run();
-        //dd($validation);
-        $area2 = new AreaModel();
-        $data['area'] = $area2->findAll();
-
-        $pareto = new ParetoModel();
-        $data['paretos'] = $pareto->findAll();
-
-        $db = \Config\Database::connect();
-        $builder = $db->table('users');
-        $builder->select('users.id, username, email , auth_groups.name as group ');
-        $builder->join('auth_groups_users', 'auth_groups_users.user_id = users.id');
-        $builder->join('auth_groups', 'auth_groups.id = auth_groups_users.group_id');
-        $query = $builder->get();
-
-        $data['users'] = $query->getResult();
-
-        //$all = $this->request->getPost();
-
-        // jika data valid, simpan ke database
         if ($isDataValid) {
-            //dd($all);
-            $area = new PetaModel();
-            $s_rcfa = 0;
-            if ($this->request->getPost('s_rcfa') == "on") {
-                $s_rcfa = 1;
-            }
-            //dd($s_rcfa);
-            $area->insert([
-                "problem" => $this->request->getPost('problem'),
-                "id_area" => $this->request->getPost('id_area'),
-                "effect" => $this->request->getPost('effect'),
-                "pareto" => json_encode($this->request->getPost('pareto')),
-                "rcfa" => $this->request->getPost('rcfa'),
-                "s_rcfa" => $s_rcfa,
+            $fdt = new FdtModel();
+            //dd($this->request->getPost());
+            $fdt->insert([
+                "deskripsi" => $this->request->getPost('deskripsi'),
+                "id_rcfa" => $id,
                 "id_pic" => $this->request->getPost('id_pic'),
-                "status" => $this->request->getPost('status')
+                "target" => $this->request->getPost('target'),
+                "no_wo" => $this->request->getPost('no_wo'),
+                "implementasi" => $this->request->getPost('implementasi'),
+                "keterangan" => $this->request->getPost('keterangan'),
+                "progress" => $this->request->getPost('progress')
+
             ]);
 
-            return redirect()->to('/peta/index');
+            return redirect()->to('rcfa/detail/' . $id);
         }
+        // dd($data['rcfa']);
 
-        // tampilkan form create
-        return view('Peta/create', $data);
+        return view('rcfa/detail', $data);
     }
     public function detail($id)
     {
@@ -130,24 +109,12 @@ class Rcfa extends BaseController
                 'link' => null
             )
         );
-        $db = \Config\Database::connect();
-        $builder = $db->table('users');
-        $builder->select('users.id, username, email , auth_groups.name as group ');
-        $builder->join('auth_groups_users', 'auth_groups_users.user_id = users.id');
-        $builder->join('auth_groups', 'auth_groups.id = auth_groups_users.group_id');
-        $query = $builder->get();
 
-        $data['users'] = $query->getResult();
         $rcfa = new RcfaModel();
         $rcfa->select('rcfa.*, peta.id_area, peta.rcfa ,peta.problem, area.area , users.username');
         $rcfa->where('rcfa.id', $id);
         $data['rcfa'] = $rcfa->join('peta', 'peta.id = rcfa.id_peta')->join('users', 'users.id = peta.id_pic')->join('area', 'area.id = peta.id_area')->first();
 
-        $fdt = new FdtModel();
-        $fdt->select('fdt.* , users.username');
-        $fdt->where('id_rcfa', $id);
-        $fdt->join('users', 'users.id = fdt.id_pic');
-        $data['fdt'] = $fdt->findAll();
         // dd($data['rcfa']);
         return view('rcfa/detail', $data);
     }

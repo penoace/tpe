@@ -56,7 +56,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">   1w` 1
+                <div class="card-header"> 1w` 1
                     <div class="row">
                         <div class="col-sm-10">
                             <h1 class="card-title">Daftar RCFA</h1>
@@ -90,7 +90,7 @@
                                     <td><?= $rcfa['rcfa'] ?></td>
                                     <td><?= $rcfa['username'] ?></td>
                                     <td>
-                                        <a href="<?= base_url('rcfa/Detail/' . $rcfa['id']); ?>" class="btn btn-primary">Detail</a>
+                                        <a href="<?= base_url('rcfa/detail/' . $rcfa['id']); ?>" class="btn btn-primary">Detail</a>
                                         <a href="<?= base_url('rcfa/edit/' . $rcfa['id']); ?>" class="btn btn-info">Edit</a>
                                         <a href="#" data-href="<?= base_url('rcfa/delete/' . $rcfa['id']) ?>" onclick="confirmToDelete(this)" class="btn btn-danger">Delete</a>
 

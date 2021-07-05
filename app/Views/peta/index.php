@@ -138,7 +138,7 @@
         </div>
     </div>
     <!--Modal tambah RCFA -->
-    <form action="peta/addrcfa" method="post">
+    <form action="/peta/addrcfa" method="post">
         <div class="modal fade" id="rcfa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

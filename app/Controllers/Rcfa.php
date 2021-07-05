@@ -114,6 +114,29 @@ class Rcfa extends BaseController
         // tampilkan form create
         return view('Peta/create', $data);
     }
+    public function detail($id){
+        $data['title'] = "RCFA Detail";
+        $data['breadcrumb_title'] = "Detail RCFA";
+
+        $data['breadcrumb']  =  array(
+            array(
+                'title' => 'Home',
+                'link' => 'dashboard'
+            ),
+            array(
+                'title' => 'Breadcrumb Title',
+                'link' => null
+            )
+        );
+
+        $rcfa = new RcfaModel();
+        $rcfa->select('rcfa.*, peta.id_area, peta.rcfa ,peta.problem, area.area , users.username');
+        $rcfa->where('rcfa.id',$id);
+        $data['rcfa'] = $rcfa->join('peta', 'peta.id = rcfa.id_peta')->join('users', 'users.id = peta.id_pic')->join('area', 'area.id = peta.id_area')->first();
+
+       // dd($data['rcfa']);
+        return view('rcfa/detail', $data);
+    }
     public function edit($id = 0)
     {
 
@@ -182,7 +205,7 @@ class Rcfa extends BaseController
         }
 
         // tampilkan form create
-        return view('peta/edit', $data);
+        return view('rcfa/edit', $data);
     }
 
     public function delete($id)

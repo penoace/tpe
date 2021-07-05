@@ -1,4 +1,4 @@
-<?= $this->extend('templates/index'); ?>
+<?= $this->extend('layouts/master'); ?>
                 <!-- Begin Page Content -->
 <?= $this->section('content'); ?>
                 <div class="container-fluid">

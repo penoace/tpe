@@ -311,12 +311,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lonnieezell/myth-auth.git",
-                "reference": "5690788058b76f000668f42871a50cf7efad6220"
+                "reference": "0029415840d1ba9f19a0f8e0ffd6a61700cb4169"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lonnieezell/myth-auth/zipball/5690788058b76f000668f42871a50cf7efad6220",
-                "reference": "5690788058b76f000668f42871a50cf7efad6220",
+                "url": "https://api.github.com/repos/lonnieezell/myth-auth/zipball/0029415840d1ba9f19a0f8e0ffd6a61700cb4169",
+                "reference": "0029415840d1ba9f19a0f8e0ffd6a61700cb4169",
                 "shasum": ""
             },
             "require": {
@@ -380,7 +380,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2021-06-28T15:03:48+00:00"
+            "time": "2021-06-29T13:02:34+00:00"
         },
         {
             "name": "psr/log",

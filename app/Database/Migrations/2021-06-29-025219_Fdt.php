@@ -50,6 +50,11 @@ class Fdt extends Migration
 				'type'           => 'VARCHAR',
 				'constraint'     => '255'
 			],
+			'validasi'      => [
+				'type'           => 'ENUM',
+				'constraint'     => ['revisi',  'close'],
+				
+			],
 			'created_at DATETIME DEFAULT CURRENT_TIMESTAMP',
 			'updated_at DATETIME ',
 			'deleted_at DATETIME '

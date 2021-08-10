@@ -119,25 +119,6 @@
         <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
       </div>
     </li>
-    <li class="nav-item dropdown">
-      <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class='btn btn-success mr-3'><?= user()->username ?></i>
-      </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-        <span class="dropdown-item dropdown-header">Menu</span>
-        <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item">
-          <i class="fas fa-user mr-2"></i> Profile
-          
-        </a>
-        <div class="dropdown-divider"></div>
-        <a href="<?= base_url('logout') ?>" class="dropdown-item">
-          <i class="fas fa-arrow-left mr-2"></i> Logout
-          
-        </a>
-        
-      </div>
-    </li>
     <li class="nav-item">
       <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
         <i class="fas fa-th-large"></i>

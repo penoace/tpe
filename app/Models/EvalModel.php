@@ -4,10 +4,10 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class FdtModel extends Model
+class EvalModel extends Model
 {
 
-    protected $table      = 'fdt';
+    protected $table      = 'evalu';
     protected $primaryKey = 'id';
 
     protected $useAutoIncrement = true;
@@ -15,7 +15,7 @@ class FdtModel extends Model
     protected $returnType     = 'array';
     protected $useSoftDeletes = true;
 
-    protected $allowedFields = ['id_rcfa', 'deskripsi', 'id_pic', 'target', 'no_wo', 'progress', 'implementasi', 'keterangan','validasi'];
+    protected $allowedFields = ['id_fdt', 'desc', 'jenis'];
 
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';

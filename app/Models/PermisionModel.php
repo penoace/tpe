@@ -4,20 +4,20 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class FdtModel extends Model
+class PermisionModel extends Model
 {
 
-    protected $table      = 'fdt';
+    protected $table      = 'auth_permissions';
     protected $primaryKey = 'id';
 
     protected $useAutoIncrement = true;
 
     protected $returnType     = 'array';
-    protected $useSoftDeletes = true;
+    protected $useSoftDeletes = false;
 
-    protected $allowedFields = ['id_rcfa', 'deskripsi', 'id_pic', 'target', 'no_wo', 'progress', 'implementasi', 'keterangan','validasi'];
+    protected $allowedFields = ['name', 'description'];
 
-    protected $useTimestamps = true;
+    protected $useTimestamps = false;
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
     protected $deletedField  = 'deleted_at';

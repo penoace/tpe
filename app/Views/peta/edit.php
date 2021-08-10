@@ -29,8 +29,10 @@
         $('#s_rcfa').change(function(e) {
             if (e.target.checked) {
                 $('#rcfa').prop('disabled', false);
+                $('#id_pic').prop('disabled', false);
             } else {
                 $('#rcfa').prop('disabled', true);
+                $('#id_pic').prop('disabled', true);
             };
 
         });
@@ -92,7 +94,8 @@
 
                             <div class="form-group">
                                 <label for="area">PIC</label>
-                                <select class="select2" name="id_pic" style="width: 100%;">
+                                <select class="select2" name="id_pic" id="id_pic" style="width: 100%;" <?= ($peta['s_rcfa'] == 1) ? '' : 'disabled' ?> >
+                                <option >Pilih PIC</option>
                                     <?php foreach ($users as $user) : ?>
                                         <option value="<?= $user->id; ?>" <?= ($user->id == $peta['id_pic']) ? 'selected' : '' ?>><?= $user->username; ?></option>
 

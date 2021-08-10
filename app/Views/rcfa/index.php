@@ -1,7 +1,18 @@
 <?= $this->extend('layouts/master'); ?>
 
-<?= $this->section('foot') ?>
+<?= $this->section('head') ?>
+<!-- DataTables -->
+<link rel="stylesheet" href="<?= base_url('assets/adminlte3') ?>/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="<?= base_url('assets/adminlte3') ?>/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<?= $this->endSection() ?>
 
+<?= $this->section('foot') ?>
+<!-- DataTables -->
+<script src="<?= base_url('assets/adminlte3') ?>/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?= base_url('assets/adminlte3') ?>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?= base_url('assets/adminlte3') ?>/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="<?= base_url('assets/adminlte3') ?>/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<!-- page script -->
 <script>
     function confirmToDelete(el) {
         $("#delete-button").attr("href", el.dataset.href);
@@ -20,8 +31,6 @@
         $("#rcfa").modal('show');
     });
     $('.btn-detail').on('click', function() {
-
-
         const id = $(this).data('id');
         const pic = $(this).data('pic');
         const problem = $(this).data('problem');
@@ -48,6 +57,25 @@
         $('#drcfa').text(rcfa);
         $("#detail").modal('show');
     });
+
+    function datarcfa(){
+        $.ajax({
+            url: "<?= base_url('rcfa/ambildata') ?>",
+            dataType: "json",
+            success: function (response) {
+                $('.viewdata').html(response.data)
+            },
+            error : function(xhr, ajaxOptions, throwError){
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
+            }
+        });
+    }
+
+    $(document).ready(function(){
+        datarcfa();
+
+        
+    });
 </script>
 <?= $this->endSection() ?>
 <!-- Begin Page Content -->
@@ -56,60 +84,17 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header"> 1w` 1
+                <div class="card-header"> 
                     <div class="row">
                         <div class="col-sm-10">
                             <h1 class="card-title">Daftar RCFA</h1>
-                        </div>
-                        <div class="col-sm-2 text-right">
-                            <a href="<?= base_url('peta/input') ?>" class="btn btn-primary mt-2">Add</a>
                         </div>
                     </div>
                 </div>
 
                 <!-- /.card-header -->
-                <div class="card-body">
-                    <table id="example2" class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th width=5%>No</th>
-                                <th>Problem</th>
-                                <th>Area</th>
-                                <th>Nomor RCFA</th>
-                                <th>PIC</th>
-                                <th width=20%px>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php $n = 1; ?>
-                            <?php foreach ($rcfas as $rcfa) : ?>
-                                <tr>
-                                    <td><?= $n++; ?> </td>
-                                    <td><?= $rcfa['problem'] ?></td>
-                                    <td><?= $rcfa['area'] ?></td>
-                                    <td><?= $rcfa['rcfa'] ?></td>
-                                    <td><?= $rcfa['username'] ?></td>
-                                    <td>
-                                        <a href="<?= base_url('rcfa/detail/' . $rcfa['id']); ?>" class="btn btn-primary">Detail</a>
-                                        <a href="<?= base_url('rcfa/edit/' . $rcfa['id']); ?>" class="btn btn-info">Edit</a>
-                                        <a href="#" data-href="<?= base_url('rcfa/delete/' . $rcfa['id']) ?>" onclick="confirmToDelete(this)" class="btn btn-danger">Delete</a>
-
-                                    </td>
-                                </tr>
-                            <?php endforeach ?>
-
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th width=5%>No</th>
-                                <th>Problem</th>
-                                <th>Area</th>
-                                <th>RCFA</th>
-                                <th>PIC</th>
-                                <th width=20%px>Action</th>
-                            </tr>
-                        </tfoot>
-                    </table>
+                <div class="card-body viewdata">
+                    
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -120,6 +105,7 @@
         </div>
         <!-- /.col -->
     </div>
+    <div class="veiwmodal" style="display: none;"></div>
 
     <div id="confirm-dialog" class="modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -177,9 +163,11 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Detail Problem</h5>
+                    
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
+                    
                 </div>
                 <div class="modal-body">
 

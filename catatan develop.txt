@@ -1,0 +1,53 @@
+peta : 
+pic default - 
+klo yes baru masukin pic ->> ok
+
+
+rcfa : 
+-tambahkan tanggal oa ->> ok
+
+heder fdt  no_wo / ik ->> ok
+
+
+inputan fdt :
+pic rcfa : 
+ - deskripsi  ->> ok
+ - target  ->> ok
+ - pic  ->> ok
+\\\\\\\\\\\\\\\\\\\\\\\\\
+pic fdt : 
+ - no wo  ->> ok
+ - progres  -> perlu validasi pic rcfa  ->> ok
+ - implementasi  ->> ok
+
+
+evaluasi , pic rcfa ->> ok
+
+
+
+
+fitur notifikasi , untuk evaluasi
+
+-------------done buat permision 
+admin 
+	sub admin (ca ) 
+		pic rcfa 
+			pic fdt 
+				user asesor
+
+================================================
+
+rcfa : 
+validasi by sistem, all fdt harus validasi close  ->>ok
+
+daftar rcfa tambah crate date dan workshop date ->> ok
+
+list, permision edit hanya pic dan (ca) 
+
+
+fdt 
+validasi by person pic rcfa ->ok
+
+
+dashboard : 
+status validasi close hilang di list

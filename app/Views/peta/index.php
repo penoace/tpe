@@ -1,7 +1,16 @@
 <?= $this->extend('layouts/master'); ?>
-
+<?= $this->section('head') ?>
+<!-- DataTables -->
+<link rel="stylesheet" href="<?= base_url('assets/adminlte3') ?>/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="<?= base_url('assets/adminlte3') ?>/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<?= $this->endSection() ?>
 <?= $this->section('foot') ?>
-
+<!-- DataTables -->
+<script src="<?= base_url('assets/adminlte3') ?>/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?= base_url('assets/adminlte3') ?>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?= base_url('assets/adminlte3') ?>/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="<?= base_url('assets/adminlte3') ?>/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<!-- page script -->
 <script>
     function confirmToDelete(el) {
         $("#delete-button").attr("href", el.dataset.href);
@@ -19,6 +28,9 @@
         $('.peta_problem').val(problem);
         $("#rcfa").modal('show');
     });
+
+
+
     $('.btn-detail').on('click', function() {
 
 
@@ -48,6 +60,48 @@
         $('#drcfa').text(rcfa);
         $("#detail").modal('show');
     });
+
+    function detail(id,pic,problem,area,status,rcfa){
+        
+
+        $.ajax({
+            url: "<?php echo base_url('peta/pareto/'); ?>" + "/" + id,
+            type: 'post',
+            dataType: 'text',
+            data: {
+                id: id
+            },
+            success: function(data) {
+                $('#dpareto').empty();
+                $('#dpareto').append(data);
+            }
+        });
+        $('#dproblem').text(problem);
+        $('#darea').text(area);
+        $('#dpic').text(pic);
+        $('#dstatus').text(status);
+        $('#drcfa').text(rcfa);
+        $("#detail").modal('show');
+    }
+
+     function datapeta(){
+        $.ajax({
+            url: "<?= base_url('peta/ambildata') ?>",
+            dataType: "json",
+            success: function (response) {
+                $('.viewdata').html(response.data)
+            },
+            error : function(xhr, ajaxOptions, throwError){
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
+            }
+        });
+    }
+
+    $(document).ready(function(){
+        datapeta();
+
+        
+    });
 </script>
 <?= $this->endSection() ?>
 <!-- Begin Page Content -->
@@ -59,59 +113,20 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-sm-10">
-                            <h1 class="card-title">Daftar Area</h1>
+                            <h3 class="card-title">Peta Improvement Enjiniring</h3>
+                            
                         </div>
+                        <?php if(has_permission('sub_admin') or has_permission('rcfa')){ ?>
                         <div class="col-sm-2 text-right">
                             <a href="<?= base_url('peta/input') ?>" class="btn btn-primary mt-2">Add</a>
                         </div>
+                        <?php }; ?>
                     </div>
                 </div>
 
                 <!-- /.card-header -->
-                <div class="card-body">
-                    <table id="example2" class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th width=5%>No</th>
-                                <th>Problem</th>
-                                <th>Area</th>
-                                <th>RCFA</th>
-                                <th>PIC</th>
-                                <th width=20%px>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php $n = 1; ?>
-                            <?php foreach ($petas as $peta) : ?>
-                                <tr>
-                                    <td><?= $n++; ?> </td>
-                                    <td><?= $peta['problem'] ?></td>
-                                    <td><?= $peta['area'] ?></td>
-                                    <td><?= $peta['s_rcfa'] ?></td>
-                                    <td><?= $peta['username'] ?></td>
-                                    <td>
-                                        <a href="#" data-pareto="<?= $peta['pareto']; ?>" data-rcfa="<?= $peta['rcfa']; ?>" data-status="<?= $peta['status']; ?>" data-area="<?= $peta['area']; ?>" data-pic="<?= $peta['username']; ?>" data-id="<?= $peta['id']; ?>" data-problem="<?= $peta['problem']; ?>" class="btn btn-primary btn-detail">Detail</a>
-                                        <a href="<?= base_url('peta/edit/' . $peta['id']); ?>" class="btn btn-info">Edit</a>
-                                        <a href="#" data-href="<?= base_url('peta/delete/' . $peta['id']) ?>" onclick="confirmToDelete(this)" class="btn btn-danger">Delete</a>
-                                        <?php if (($peta['s_rcfa'] == 1) and !(in_array($peta['id'], array_column($rcfa, 'id_peta')))) : ?>
-                                            <a href="#" data-href="<?= base_url('peta/delete/' . $peta['id']) ?>" data-pic="<?= $peta['username']; ?>" data-id="<?= $peta['id']; ?>" data-problem="<?= $peta['problem']; ?>" class="btn btn-primary btn-rcfa">add Rcfa</a>
-                                        <?php endif ?>
-                                    </td>
-                                </tr>
-                            <?php endforeach ?>
-
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th width=5%>No</th>
-                                <th>Problem</th>
-                                <th>Area</th>
-                                <th>RCFA</th>
-                                <th>PIC</th>
-                                <th width=20%px>Action</th>
-                            </tr>
-                        </tfoot>
-                    </table>
+                <div class="card-body viewdata">
+                    
                 </div>
                 <!-- /.card-body -->
             </div>

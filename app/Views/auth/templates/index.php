@@ -12,7 +12,7 @@
     <title>SB Admin 2 - Login</title>
 
     <!-- Custom fonts for this template-->
-    <link href="<?= base_url();?>/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="<?= base_url('assets/adminlte3') ?>/plugins/fontawesome-free/css/all.min.css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
@@ -26,15 +26,15 @@
 
     <?= $this->renderSection('content'); ?>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="<?= base_url();?>/vendor/jquery/jquery.min.js"></script>
-    <script src="<?= base_url();?>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="<?= base_url();?>/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="<?= base_url();?>/js/sb-admin-2.min.js"></script>
+    <script src="<?= base_url('assets/adminlte3') ?>/plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="<?= base_url('assets/adminlte3') ?>/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="<?= base_url('assets/adminlte3') ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  
 
 </body>
 

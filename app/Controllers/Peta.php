@@ -4,8 +4,11 @@ namespace App\Controllers;
 
 use App\Models\PetaModel;
 use App\Models\AreaModel;
+use App\Models\EvalModel;
+use App\Models\FdtModel;
 use App\Models\ParetoModel;
 use App\Models\RcfaModel;
+use App\Models\UserModel;
 
 class Peta extends BaseController
 {
@@ -19,16 +22,16 @@ class Peta extends BaseController
          dan isi datanya dengan news yang sudah terbit
         */
 
-        $data['petas'] = $peta->join('users', 'users.id = peta.id_pic')
+        $data['petas'] = $peta->join('users', 'users.id = peta.id_pic' , 'left')
             ->join('area', 'area.id = peta.id_area')->findAll();
-
+         
         //dd($data);
 
         $rcfa = new RcfaModel();
         $data['rcfa'] = $rcfa->findAll();
 
-        $data['title'] = "Peta";
-        $data['breadcrumb_title'] = "Peta";
+        $data['title'] = "Peta Impovement Enjiniring";
+        $data['breadcrumb_title'] = "Peta Impovement Enjiniring" ;
         $data['breadcrumb']  =  array(
             array(
                 'title' => 'Home',
@@ -42,11 +45,39 @@ class Peta extends BaseController
         return view('Peta/index', $data);
     }
 
+    public function ambildata(){
+        
+        if($this->request->isAJAX()){
+            $peta = new PetaModel();
+            $peta->select('peta.*, users.username, area.area');
+            /*
+            siapkan data untuk dikirim ke view dengan nama $newses
+            dan isi datanya dengan news yang sudah terbit
+            */
+
+            $data['petas'] = $peta->join('users', 'users.id = peta.id_pic' , 'left')
+                ->join('area', 'area.id = peta.id_area')->findAll();
+            
+            //dd($data);
+
+            $rcfa = new RcfaModel();
+            $data['rcfa'] = $rcfa->findAll();
+            
+
+            $msg = [
+                'data'=> view('Peta/datapeta', $data)
+            ];
+            echo json_encode($msg);
+        }else{
+           exit('Tidak bisa diakses') ;
+        }
+    }
+
     public function input()
     {
 
         $data['title'] = "Peta Input";
-        $data['breadcrumb_title'] = "Peta";
+        $data['breadcrumb_title'] = "Input Peta";
 
         $data['breadcrumb']  =  array(
             array(
@@ -65,7 +96,6 @@ class Peta extends BaseController
             'id_area' => 'required',
             'effect' => 'required',
             'pareto' => 'required',
-            'id_pic' => 'required',
             'status' => 'required'
         ]);
         $isDataValid = $validation->withRequest($this->request)->run();
@@ -81,9 +111,16 @@ class Peta extends BaseController
         $builder->select('users.id, username, email , auth_groups.name as group ');
         $builder->join('auth_groups_users', 'auth_groups_users.user_id = users.id');
         $builder->join('auth_groups', 'auth_groups.id = auth_groups_users.group_id');
+        $builder->where('auth_groups_users.group_id', 2 );
+        $builder->orWhere('auth_groups_users.group_id', 3 );
         $query = $builder->get();
 
-        $data['users'] = $query->getResult();
+//        $data['users'] = $query->getResult();
+        
+        $user = new UserModel();
+        
+        $data['users'] = $user->listrcfa();;
+        
 
         //$all = $this->request->getPost();
 
@@ -144,7 +181,6 @@ class Peta extends BaseController
             'id_area' => 'required',
             'effect' => 'required',
             'pareto' => 'required',
-            'id_pic' => 'required',
             'status' => 'required'
         ]);
         $isDataValid = $validation->withRequest($this->request)->run();
@@ -186,9 +222,31 @@ class Peta extends BaseController
 
     public function delete($id)
     {
+        
         $peta = new PetaModel();
+        $rcfa = new RcfaModel();
+        $fdt = new FdtModel();
+        
+        $idrcfa = $rcfa->select('id')->where('id_peta',$id)->find();
+        $idfdt = new FdtModel();
+        $bfdt = $idfdt->where('id_rcfa', $idrcfa[0]['id'])->find();
+        foreach ($bfdt as $dfdt){
+            $evalu = new EvalModel();
+            $evalu->where('id_fdt', $dfdt['id'])->delete();
+        }
+
+        
+        //dd($idrcfa[0]['id']);
+        
+        $fdt->where('id_rcfa', $idrcfa[0]['id'])->delete();
+        
+        $rcfa->where('id_peta' , $id)->delete();
+        
         $peta->delete($id);
+
+       
         return redirect()->to('/peta/index');
+       
     }
 
 

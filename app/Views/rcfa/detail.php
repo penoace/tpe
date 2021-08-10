@@ -2,6 +2,10 @@
 <!-- Begin Page Content -->
 
 <?= $this->section('head') ?>
+<!-- DataTables -->
+<link rel="stylesheet" href="<?= base_url('assets/adminlte3') ?>/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="<?= base_url('assets/adminlte3') ?>/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="<?= base_url('assets/adminlte3') ?>/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
 
 <!-- Select2 -->
 <link rel="stylesheet" href="<?= base_url('assets/adminlte3') ?>/plugins/select2/css/select2.min.css">
@@ -22,10 +26,16 @@
 <!-- date-range-picker -->
 <script src="<?= base_url('assets/adminlte3') ?>/plugins/daterangepicker/daterangepicker.js"></script>
 <!-- bootstrap color picker -->
+<script src="<?= base_url('assets/adminlte3') ?>/plugins/sweetalert2/sweetalert2.min.js"></script>
 
 <!-- Tempusdominus Bootstrap 4 -->
 <script src="<?= base_url('assets/adminlte3') ?>/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-
+<!-- DataTables -->
+<script src="<?= base_url('assets/adminlte3') ?>/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?= base_url('assets/adminlte3') ?>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?= base_url('assets/adminlte3') ?>/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="<?= base_url('assets/adminlte3') ?>/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<!-- page script -->
 
 <script>
     $(function() {
@@ -62,7 +72,40 @@
 
         });
 
-    })
+    });
+
+    function datafdt(){
+        $.ajax({
+            url: "<?= base_url('rcfa/ambilfdt') ?>",
+            dataType: "json",
+            data : {'id' : '<?= $rcfa['id'] ?>'} , 
+            success: function (response) {
+                $('.viewdata').html(response.data)
+            },
+            error : function(xhr, ajaxOptions, throwError){
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
+            }
+        });
+    }
+    $(document).ready(function(){
+        datafdt();
+
+        $('.tomboltambah').click(function(e){
+            e.preventDefault();
+            $.ajax({
+                url: "<?= base_url('rcfa/formtambah') ?>",
+                data : {'id' : '<?= $rcfa['id'] ?>'} ,
+                dataType: "json",
+                success: function (response) {
+                    $('.viewmodal').html(response.data).show();
+                    $('#modaltambah').modal('show');
+                },
+                error : function(xhr, ajaxOptions, throwError){
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
+                }
+            });
+        })
+    });
 </script>
 <?= $this->endSection() ?>
 <?= $this->section('content'); ?>
@@ -72,9 +115,11 @@
             <div class="col-sm-10 mt-3">
                 <strong>Nomor : <?= $rcfa['rcfa']; ?></strong>
             </div>
+            <?php if(has_permission('rcfa')){ ?>
             <div class="col-sm-2 text-right">
-                <a href="<?= base_url('rcfa/edit/') ?>/<?= $rcfa['id']; ?> " class="btn btn-primary mt-2">Edit</a>
+                <a href="<?= base_url('rcfa/edit2/') ?>/<?= $rcfa['id']; ?> " class="btn btn-primary mt-2">Edit</a>
             </div>
+            <?php } ?>
         </div>
         <div class="card-body">
             <ul class="list-group list-group-flush">
@@ -87,10 +132,16 @@
 
                 <li class="list-group-item">
                     <div class="row">
-                        <div class="col-md-4 text-center"><label>Tanggal workshop : </label><?php $tanggal = strtotime($rcfa['workshop']);
-                                                                                            echo ($rcfa['workshop'] == null) ? '' : date('d-M-Y', $tanggal); ?></div>
-                        <div class="col-md-4 text-center"><label> Surat OA : </label><?= $rcfa['nota']; ?></div>
-                        <div class="col-md-4 text-center"><label> Status : </label><?= $rcfa['status']; ?></div>
+                        <div class="col-md-3 text-center"><label>Tanggal workshop : </label>
+                            <?php $tanggal = strtotime($rcfa['workshop']);
+                            echo ($rcfa['workshop'] == null) ? '' : date('d-M-Y', $tanggal); ?>
+                        </div>
+                        <div class="col-md-3 text-center"><label> Surat OA : </label><?= $rcfa['nota']; ?></div>
+                        <div class="col-md-3 text-center"><label>Tanggal OA: </label>
+                            <?php $tanggal = strtotime($rcfa['tgl_nota']);
+                            echo ($rcfa['tgl_nota'] == null) ? '' : date('d-M-Y', $tanggal); ?>
+                        </div>
+                        <div class="col-md-3 text-center"><label> Status : </label><?= $rcfa['status']; ?></div>
                     </div>
                 </li>
                 </li>
@@ -103,113 +154,20 @@
                 <strong>Daftar FDT</strong>
             </div>
             <div class="col-sm-3 text-right">
-                <a href="<?= base_url('fdt/input/') ?>/<?= $rcfa['id']; ?> " class="btn btn-primary mt-2">Tambah FDT</a>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            <?php if(has_permission('rcfa')){ ?>
+                <button type="button" class="btn btn-primary tomboltambah" data-toggle="modal" data-target="#exampleModal">
                     Tambah
                 </button>
+            <?php } ?>
             </div>
         </div>
-        <div class="card-body">
-            <table class="table table-hover table-responsive-sm">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Deskripsi</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">WO</th>
-                        <th scope="col">PIC</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Implementasi</th>
-                        <th scope="col">Keterangan</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($fdt as $fdtt) : ?>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td><?= $fdtt['deskripsi']; ?></td>
-                            <td><?php $tanggal = strtotime($fdtt['target']);
-                                echo ($fdtt['target'] == null) ? '' : date('d-M-Y', $tanggal); ?></td>
-                            <td><?= $fdtt['no_wo']; ?></td>
-                            <td><?= $fdtt['username']; ?></td>
-                            <td><?= $fdtt['progress']; ?></td>
-                            <td><?php $tanggal = strtotime($fdtt['implementasi']);
-                                echo ($fdtt['implementasi'] == '0000-00-00 00:00:00') ? '' : date('d-M-Y', $tanggal); ?></td>
-                            <td><?= $fdtt['keterangan']; ?></td>
-                            <td>@mdo</td>
-                        </tr>
-                    <?php endforeach ?>
-                </tbody>
-            </table>
+        <div class="card-body viewdata">
+            
         </div>
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form action="/fdt/input/<?= $rcfa['id']; ?>" $ method="post">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Tambah FDT</h5>
-                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="deskripsi">Deskripsi</label>
-                            <input type="text" name="deskripsi" id="deskripsi" class="form-control" placeholder="deskripsi" aria-describedby="helpId">
-                        </div>
-                        <div class="form-group">
-                            <label for="target">Target</label>
-                            <div class="input-group date" data-target-input="nearest">
-                                <input type="text" class="form-control datetimepicker-input" name="target" id="target" data-target="#target" />
-                                <div class="input-group-append" data-target="#target" data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="no_wo">No WO</label>
-                            <input type="text" name="no_wo" id="no_wo" class="form-control" placeholder="no_wo" aria-describedby="helpId">
-                        </div>
-                        <div class="form-group">
-                            <label for="area">PIC</label>
-                            <select class="select2" name="id_pic" style="width: 100%;">
-                                <?php foreach ($users as $user) : ?>
-                                    <option value="<?= $user->id; ?>"><?= $user->username; ?></option>
-                                <?php endforeach ?>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="progress">Progress</label>
-                            <select class="form-control" name="progress" id="progress">
-                                <option value="open">Open</option>
-                                <option value="inprogress">Inprrogress</option>
-                                <option value="close">Close</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="implementasi">Implementasi</label>
-                            <div class="input-group date" data-target-input="nearest">
-                                <input type="text" class="form-control datetimepicker-input" name="implementasi" id="implementasi" data-target="#implementasi" />
-                                <div class="input-group-append" data-target="#implementasi" data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="keterangan">Keterangan</label>
-                            <textarea class="form-control" name="keterangan" id="keterangan" rows="3"></textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    <div class="viewmodal" style="display: none;"></div>
 </div>
 
 <!-- End of Main Content -->

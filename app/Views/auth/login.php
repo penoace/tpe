@@ -3,7 +3,7 @@
 
 <?= $this->section('content'); ?>
     <div class="container">
-
+    
         <!-- Outer Row -->
         <div class="row justify-content-center">
 
@@ -16,8 +16,10 @@
                             
                             <div class="col-lg">
                                 <div class="p-5">
+                                    <img src="<?= base_url() ?>/img/Logo.png" class="img-fluid">
+                                    
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4"><?=lang('Auth.loginTitle')?></h1>
+                                        <h1 class="h4 text-gray-900 mb-4"> <?php //lang('Auth.loginTitle')?></h1>
                                     </div>
                                     <?= view('Myth\Auth\Views\_message_block') ?>
                                     <form action="<?= route_to('login') ?>" method="post" class="user">

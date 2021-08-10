@@ -1,16 +1,16 @@
-<?= $this->extend('templates/index'); ?>
+<?= $this->extend('layouts/master'); ?>
 <!-- Begin Page Content -->
 <?= $this->section('content'); ?>
 <div class="container-fluid">
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800">admin</h1>
-    <?php d($users); ?>
+    
     <div class="row">
         <div class="col-lg-8">
             <div class="card mb-3" style="max-width: 540px;">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img src="..." class="img-fluid rounded-start" alt="...">
+                        
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
@@ -29,6 +29,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="card">
+
+                
+
             </div>
         </div>
     </div>

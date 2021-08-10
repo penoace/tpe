@@ -30,11 +30,19 @@ class Rcfa extends Migration
 				'constraint'     => '255',
 				'null' => true,
 			],
+			'tgl_nota'       => [
+				'type'           => 'DATETIME',
+				'null' => true,
+
+			],
+
 			'status'      => [
 				'type'           => 'ENUM',
 				'constraint'     => ['open', 'inprogress', 'close'],
 				'default'        => 'open',
 			],
+			
+
 			'created_at DATETIME DEFAULT CURRENT_TIMESTAMP',
 			'updated_at DATETIME ',
 			'deleted_at DATETIME '

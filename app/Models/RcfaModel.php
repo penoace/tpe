@@ -15,7 +15,7 @@ class RcfaModel extends Model
     protected $returnType     = 'array';
     protected $useSoftDeletes = true;
 
-    protected $allowedFields = ['id_peta', 'workshop', 'nota', 'status'];
+    protected $allowedFields = ['id_peta', 'workshop', 'nota', 'status','tgl_nota'];
 
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';

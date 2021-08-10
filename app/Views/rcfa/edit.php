@@ -29,6 +29,10 @@
         $('#reservationdate').datetimepicker({
             format: 'YYYY-MM-DD',
         });
+
+        $('#tgl_notas').datetimepicker({
+            format: 'YYYY-MM-DD',
+        });
         //Date range picker
 
 
@@ -68,6 +72,17 @@
                 <label>Nota Dinas</label>
                 <input type="text" class="form-control" id="nota" name="nota" value="<?= $rcfa['nota']; ?>" placeholder="Enter Nota Dinas">
             </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 col-form-label col-form-label-sm">Tanggal Nota Dinas</label>
+                <div class="input-group date" id="tgl_notas" data-target-input="nearest">
+                    <input type="text" class="form-control datetimepicker-input" value="<?= $rcfa['tgl_nota']; ?>" name="tgl_nota" id="tgl_nota" data-target="#tgl_notas" />
+                    <div class="input-group-append" data-target="#tgl_notas" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="form-group">
                 <label for="area">Status</label>
                 <select class="select2" name="status" data-placeholder="Select a Status" data-dropdown-css-class="select2-purple" style="width: 100%;">
@@ -76,6 +91,7 @@
                     <option value="close" <?= ("close" == $rcfa['status']) ? 'selected' : '' ?>>Close</option>
                 </select>
             </div>
+            
         </div>
         <!-- /.card-body -->
 

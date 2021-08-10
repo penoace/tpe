@@ -36,6 +36,9 @@ $routes->get('/', 'Home::index');
 $routes->get('/admin', 'Admin::index', ['filter' => 'role:admin']);
 $routes->get('/admin/index', 'Admin::index', ['filter' => 'role:admin']);
 $routes->get('/admin/(:num)', 'Admin::detail/$1', ['filter' => 'role:admin']);
+$routes->get('/admin/edit/(:num)', 'Admin::edit/$1', ['filter' => 'role:admin']);
+$routes->get('/admin/akses/(:num)', 'Admin::akses/$1', ['filter' => 'role:admin']);
+$routes->get('/admin/changeaccess', 'Admin::changeaccess', ['filter' => 'role:admin']);
 /*
  * --------------------------------------------------------------------
  * Additional Routing
@@ -48,7 +51,7 @@ $routes->get('/admin/(:num)', 'Admin::detail/$1', ['filter' => 'role:admin']);
  *
  * You will have access to the $routes object within that file without
  * needing to reload it.
- */
+
 $routes->get('dashboard', function () {
 	$data['title'] = "AdminLTE 3 | Dashboard";
 	$data['breadcrumb_title'] = "Dashboard";
@@ -65,7 +68,7 @@ $routes->get('dashboard', function () {
 	$data['breadcrumb'] = $breadcrumb;
 	return view('dashboard/index', $data);
 });
-
+ */
 $routes->get('dashboard/v2', function () {
 	$data['title'] = "AdminLTE 3 | Dashboard v2";
 	$data['breadcrumb_title'] = "Dashboard v2";

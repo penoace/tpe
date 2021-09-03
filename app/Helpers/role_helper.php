@@ -1,6 +1,8 @@
 <?php 
 
 use App\Models\FdtModel;
+use App\Models\ParetoModel;
+use App\Models\PeretoModel;
 
 function checkrole($user , $role){
 
@@ -30,6 +32,22 @@ function checkfdt($rcfa){
     }else{
         return false;
     }
+
+}
+
+function cetakpareto($id){
+    $isi = json_decode($id, true);
+
+    $pareto = new ParetoModel();
+    $hasil = '';
+    foreach ($isi as $ini ) :
+        $pareto->select('pereto');
+        $pareto->where('id', $ini);
+        $result = $pareto->first();
+        $hasil = $hasil.$result['pereto'].' | ';
+    endforeach ;
+
+    return $hasil;
 
 }
 

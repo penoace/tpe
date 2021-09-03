@@ -10,7 +10,8 @@
 		"php": "^7.3||^8.0",
 		"codeigniter4/framework": "^4",
 		"myth/auth": "dev-develop",
-		"almasaeed2010/adminlte": "~3.1"
+		"almasaeed2010/adminlte": "~3.1",
+		"phpoffice/phpspreadsheet": "^1.18"
 	},
 	"require-dev": {
 		"fakerphp/faker": "^1.9",

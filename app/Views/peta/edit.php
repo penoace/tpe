@@ -73,7 +73,11 @@
                             <div class="form-group">
                                 <label for="area">Pareto</label>
                                 <div class="select2-purple">
-                                    <?php $eff = json_decode($peta['pareto'], true); ?>
+                                    <?php $eff = json_decode($peta['pareto'], true); d($eff);?>
+                                    <?= 
+                                        cetakpareto($peta['pareto']);
+                                    
+                                    ?>
                                     <select class="select2" name="pareto[]" multiple="multiple" data-placeholder="Select a State" data-dropdown-css-class="select2-purple" style="width: 100%;">
                                         <?php foreach ($paretos as $pareto) : ?>
                                             <option value="<?= $pareto['id']; ?>" <?= (in_array($pareto['id'], $eff)) ? 'selected' : '' ?>><?= $pareto['pereto']; ?></option>

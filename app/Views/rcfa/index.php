@@ -17,6 +17,7 @@
     function confirmToDelete(el) {
         $("#delete-button").attr("href", el.dataset.href);
         $("#confirm-dialog").modal('show');
+        datarcfa();
     }
 
     $('.btn-rcfa').on('click', function() {
@@ -58,23 +59,23 @@
         $("#detail").modal('show');
     });
 
-    function datarcfa(){
+    function datarcfa() {
         $.ajax({
             url: "<?= base_url('rcfa/ambildata') ?>",
             dataType: "json",
-            success: function (response) {
+            success: function(response) {
                 $('.viewdata').html(response.data)
             },
-            error : function(xhr, ajaxOptions, throwError){
+            error: function(xhr, ajaxOptions, throwError) {
                 alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
             }
         });
     }
 
-    $(document).ready(function(){
+    $(document).ready(function() {
         datarcfa();
 
-        
+
     });
 </script>
 <?= $this->endSection() ?>
@@ -84,7 +85,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header"> 
+                <div class="card-header">
                     <div class="row">
                         <div class="col-sm-10">
                             <h1 class="card-title">Daftar RCFA</h1>
@@ -94,7 +95,7 @@
 
                 <!-- /.card-header -->
                 <div class="card-body viewdata">
-                    
+
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -163,11 +164,11 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Detail Problem</h5>
-                    
+
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    
+
                 </div>
                 <div class="modal-body">
 

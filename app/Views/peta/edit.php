@@ -73,10 +73,11 @@
                             <div class="form-group">
                                 <label for="area">Pareto</label>
                                 <div class="select2-purple">
-                                    <?php $eff = json_decode($peta['pareto'], true); d($eff);?>
-                                    <?= 
-                                        cetakpareto($peta['pareto']);
-                                    
+                                    <?php $eff = json_decode($peta['pareto'], true);
+                                    d($eff); ?>
+                                    <?=
+                                    cetakpareto($peta['pareto']);
+
                                     ?>
                                     <select class="select2" name="pareto[]" multiple="multiple" data-placeholder="Select a State" data-dropdown-css-class="select2-purple" style="width: 100%;">
                                         <?php foreach ($paretos as $pareto) : ?>
@@ -87,33 +88,36 @@
 
                                 </div>
                             </div>
-                            <div class="form-group clearfix">
-                                <label for="area">RCFA</label>
-                                <div class="icheck"><input type="checkbox" <?= ($peta['s_rcfa'] == 1) ? 'checked' : '' ?> name="s_rcfa" id="s_rcfa">
-                                    <label for="checkboxDanger1">y/n</label>
+                            <?php if (has_permission('sub_admin')) { ?>
+                                <div class="form-group clearfix">
+                                    <label for="area">RCFA</label>
+                                    <div class="icheck"><input type="checkbox" <?= ($peta['s_rcfa'] == 1) ? 'checked' : '' ?> name="s_rcfa" id="s_rcfa">
+                                        <label for="checkboxDanger1">y/n</label>
+                                    </div>
+                                    <input type="text" class="form-control" id="rcfa" name="rcfa" <?= ($peta['s_rcfa'] == 1) ? '' : 'disabled' ?> value="<?= $peta['rcfa']; ?>" placeholder="Enter RCFA">
                                 </div>
-                                <input type="text" class="form-control" id="rcfa" name="rcfa" <?= ($peta['s_rcfa'] == 1) ? '' : 'disabled' ?> value="<?= $peta['rcfa']; ?>" placeholder="Enter RCFA">
-                            </div>
-
+                            <?php } ?>
 
                             <div class="form-group">
                                 <label for="area">PIC</label>
-                                <select class="select2" name="id_pic" id="id_pic" style="width: 100%;" <?= ($peta['s_rcfa'] == 1) ? '' : 'disabled' ?> >
-                                <option >Pilih PIC</option>
+                                <select class="select2" name="id_pic" id="id_pic" style="width: 100%;" <?= ($peta['s_rcfa'] == 1) ? '' : 'disabled' ?>>
+                                    <option>Pilih PIC</option>
                                     <?php foreach ($users as $user) : ?>
                                         <option value="<?= $user->id; ?>" <?= ($user->id == $peta['id_pic']) ? 'selected' : '' ?>><?= $user->username; ?></option>
 
                                     <?php endforeach ?>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="area">Status</label>
-                                <select class="select2" name="status" data-placeholder="Select a Status" data-dropdown-css-class="select2-purple" style="width: 100%;">
-                                    <option value="open" <?= ("open" == $peta['status']) ? 'selected' : '' ?>>Open</option>
-                                    <option value="inprogress" <?= ("inprogress" == $peta['status']) ? 'selected' : '' ?>>Inprogress</option>
-                                    <option value="close" <?= ("close" == $peta['status']) ? 'selected' : '' ?>>Close</option>
-                                </select>
-                            </div>
+                            <?php if (has_permission('sub_admin')) { ?>
+                                <div class="form-group">
+                                    <label for="area">Status</label>
+                                    <select class="select2" name="status" data-placeholder="Select a Status" data-dropdown-css-class="select2-purple" style="width: 100%;">
+                                        <option value="open" <?= ("open" == $peta['status']) ? 'selected' : '' ?>>Open</option>
+                                        <option value="inprogress" <?= ("inprogress" == $peta['status']) ? 'selected' : '' ?>>Inprogress</option>
+                                        <option value="close" <?= ("close" == $peta['status']) ? 'selected' : '' ?>>Close</option>
+                                    </select>
+                                </div>
+                            <?php } ?>
                         </div>
                         <!-- /.card-body -->
 

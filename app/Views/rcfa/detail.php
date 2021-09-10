@@ -74,33 +74,43 @@
 
     });
 
-    function datafdt(){
+    function updateDiv() {
+        $("#header").load(" #header > *")
+    }
+
+
+    function datafdt() {
         $.ajax({
             url: "<?= base_url('rcfa/ambilfdt') ?>",
             dataType: "json",
-            data : {'id' : '<?= $rcfa['id'] ?>'} , 
-            success: function (response) {
+            data: {
+                'id': '<?= $rcfa['id'] ?>'
+            },
+            success: function(response) {
                 $('.viewdata').html(response.data)
             },
-            error : function(xhr, ajaxOptions, throwError){
+            error: function(xhr, ajaxOptions, throwError) {
                 alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
             }
         });
     }
-    $(document).ready(function(){
+    $(document).ready(function() {
         datafdt();
 
-        $('.tomboltambah').click(function(e){
+        $('.tomboltambah').click(function(e) {
             e.preventDefault();
             $.ajax({
                 url: "<?= base_url('rcfa/formtambah') ?>",
-                data : {'id' : '<?= $rcfa['id'] ?>'} ,
+                data: {
+                    'id': '<?= $rcfa['id'] ?>'
+                },
                 dataType: "json",
-                success: function (response) {
+                success: function(response) {
                     $('.viewmodal').html(response.data).show();
                     $('#modaltambah').modal('show');
+                    updateDiv()
                 },
-                error : function(xhr, ajaxOptions, throwError){
+                error: function(xhr, ajaxOptions, throwError) {
                     alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
                 }
             });
@@ -110,15 +120,15 @@
 <?= $this->endSection() ?>
 <?= $this->section('content'); ?>
 <div class="container-fluid">
-    <div class="card">
+    <div class="card" id="header">
         <div class="card-header row">
             <div class="col-sm-10 mt-3">
                 <strong>Nomor : <?= $rcfa['rcfa']; ?></strong>
             </div>
-            <?php if(has_permission('rcfa')){ ?>
-            <div class="col-sm-2 text-right">
-                <a href="<?= base_url('rcfa/edit2/') ?>/<?= $rcfa['id']; ?> " class="btn btn-primary mt-2">Edit</a>
-            </div>
+            <?php if (has_permission('rcfa')) { ?>
+                <div class="col-sm-2 text-right">
+                    <a href="<?= base_url('rcfa/edit2/') ?>/<?= $rcfa['id']; ?> " class="btn btn-primary mt-2">Edit</a>
+                </div>
             <?php } ?>
         </div>
         <div class="card-body">
@@ -141,7 +151,7 @@
                             <?php $tanggal = strtotime($rcfa['tgl_nota']);
                             echo ($rcfa['tgl_nota'] == null) ? '' : date('d-M-Y', $tanggal); ?>
                         </div>
-                        <div class="col-md-3 text-center"><label> Status : </label><?= $rcfa['status']; ?></div>
+                        <div class="col-md-3 text-center"><label> Status : </label><?= checkfdt($rcfa['id']); ?></div>
                     </div>
                 </li>
                 </li>
@@ -154,15 +164,15 @@
                 <strong>Daftar FDT</strong>
             </div>
             <div class="col-sm-3 text-right">
-            <?php if(has_permission('rcfa')){ ?>
-                <button type="button" class="btn btn-primary tomboltambah" data-toggle="modal" data-target="#exampleModal">
-                    Tambah
-                </button>
-            <?php } ?>
+                <?php if (has_permission('rcfa')) { ?>
+                    <button type="button" class="btn btn-primary tomboltambah" data-toggle="modal" data-target="#exampleModal">
+                        Tambah
+                    </button>
+                <?php } ?>
             </div>
         </div>
         <div class="card-body viewdata">
-            
+
         </div>
     </div>
 

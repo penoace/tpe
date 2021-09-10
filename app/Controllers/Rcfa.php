@@ -45,9 +45,10 @@ class Rcfa extends BaseController
         return view('Rcfa/index', $data);
     }
 
-    public function ambildata(){
-        
-        if($this->request->isAJAX()){
+    public function ambildata()
+    {
+
+        if ($this->request->isAJAX()) {
             $peta = new PetaModel();
             $peta->select('peta.*, users.username, area.area');
             /*
@@ -63,25 +64,26 @@ class Rcfa extends BaseController
             $rcfa = new RcfaModel();
             $rcfa->select('rcfa.*, peta.id_area,peta.id_pic, peta.rcfa ,peta.problem, peta.deleted_at, area.area , users.username');
             //$rcfa->where('peta.deleted_at', null);
-            $data['rcfas'] = $rcfa->join('peta', 'peta.id = rcfa.id_peta','left')->join('users', 'users.id = peta.id_pic')->join('area', 'area.id = peta.id_area')->findAll();
+            $data['rcfas'] = $rcfa->join('peta', 'peta.id = rcfa.id_peta', 'left')->join('users', 'users.id = peta.id_pic')->join('area', 'area.id = peta.id_area')->findAll();
 
-            
+
 
             $msg = [
-                'data'=> view('Rcfa/datarcfa', $data)
+                'data' => view('Rcfa/datarcfa', $data)
             ];
             echo json_encode($msg);
-        }else{
-           exit('Tidak bisa diakses') ;
+        } else {
+            exit('Tidak bisa diakses');
         }
     }
 
-    public function formtambah(){
+    public function formtambah()
+    {
         $id = $this->request->getVar('id');
-        if($this->request->isAJAX()){
+        if ($this->request->isAJAX()) {
             $data['title'] = "Peta Input";
             $data['breadcrumb_title'] = "Peta";
-    
+
             $data['breadcrumb']  =  array(
                 array(
                     'title' => 'Home',
@@ -92,29 +94,29 @@ class Rcfa extends BaseController
                     'link' => null
                 )
             );
-            $data['rcfa'] =['id'=>$id];
+            $data['rcfa'] = ['id' => $id];
             $area2 = new AreaModel();
             $data['area'] = $area2->findAll();
-    
+
             $pareto = new ParetoModel();
             $data['paretos'] = $pareto->findAll();
-    
+
             $db = \Config\Database::connect();
             $builder = $db->table('users');
             $builder->select('users.id, username, email , auth_groups.name as group ');
             $builder->join('auth_groups_users', 'auth_groups_users.user_id = users.id');
             $builder->join('auth_groups', 'auth_groups.id = auth_groups_users.group_id');
             $query = $builder->get();
-    
+
             $data['users'] = $query->getResult();
 
             $msg = [
-                'data'=> view('Rcfa/tambahfdt', $data)
+                'data' => view('Rcfa/tambahfdt', $data)
             ];
             //return view('Peta/create', $data);
             echo json_encode($msg);
-        }else{
-           exit('Tidak bisa diakses') ;
+        } else {
+            exit('Tidak bisa diakses');
         }
     }
     public function input()
@@ -224,9 +226,10 @@ class Rcfa extends BaseController
         return view('rcfa/detail', $data);
     }
 
-    public function ambilfdt(){
+    public function ambilfdt()
+    {
         $id = $this->request->getVar('id');
-        if($this->request->isAJAX()){
+        if ($this->request->isAJAX()) {
             $data['title'] = "RCFA Detail";
             $data['breadcrumb_title'] = "Detail RCFA";
 
@@ -249,7 +252,7 @@ class Rcfa extends BaseController
 
             $data['users'] = $query->getResult();
             $rcfa = new RcfaModel();
-            $rcfa->select('rcfa.*, peta.id_area, peta.rcfa ,peta.problem, area.area , users.username');
+            $rcfa->select('rcfa.*, peta.id_area, peta.rcfa ,peta.problem, area.area , users.username , peta.id_pic as picrcfa');
             $rcfa->where('rcfa.id', $id);
             $data['rcfa'] = $rcfa->join('peta', 'peta.id = rcfa.id_peta')->join('users', 'users.id = peta.id_pic')->join('area', 'area.id = peta.id_area')->first();
 
@@ -262,12 +265,11 @@ class Rcfa extends BaseController
             //return view('rcfa/detail', $data);
 
             $msg = [
-                'data'=> view('Rcfa/datafdt', $data)
+                'data' => view('Rcfa/datafdt', $data)
             ];
-            
-            echo json_encode($msg);
 
-        }else{
+            echo json_encode($msg);
+        } else {
             echo "tidak bisa diakses";
         }
     }
@@ -365,32 +367,31 @@ class Rcfa extends BaseController
 
     public function delete($id)
     {
-       // $peta = new RcfaModel();
+        // $peta = new RcfaModel();
         //$peta->delete($id);
-       
+
         $rcfa = new RcfaModel();
         $fdt = new FdtModel();
         $idfdt = new FdtModel();
 
 
-        
+
         $bfdt = $idfdt->where('id_rcfa', $id)->find();
-        foreach ($bfdt as $dfdt){
+        foreach ($bfdt as $dfdt) {
             $evalu = new EvalModel();
             $evalu->where('id_fdt', $dfdt['id'])->delete();
         }
 
-        
+
         //dd($idrcfa[0]['id']);
-        
+
         $fdt->where('id_rcfa', $id)->delete();
-        
+
         $rcfa->delete($id);
-        
-        
+
+
 
         return redirect()->to('/rcfa/index');
-
     }
 
 

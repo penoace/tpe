@@ -31,12 +31,22 @@ class UserModel extends MythModel
     protected $validationMessages = [];
     protected $skipValidation     = false;
 
-    public function listrcfa(){
+    public function listrcfa()
+    {
         $user = $this
             ->join('auth_users_permissions', 'users.id = auth_users_permissions.user_id',)
-            ->where('permission_id',3)
-            ->where('users.id !=' ,'1')
+            ->where('permission_id', 3)
+            ->where('users.id !=', '1')
             ->find();
+        return $user;
+    }
+
+    public function ambiluser()
+    {
+        $user = $this
+            ->select('users.id, users.username , auth_permissions.description as permission')
+            ->join('auth_users_permissions', 'users.id = auth_users_permissions.user_id',)
+            ->join('auth_permissions', 'auth_permissions.id = auth_users_permissions.permission_id');
         return $user;
     }
 }

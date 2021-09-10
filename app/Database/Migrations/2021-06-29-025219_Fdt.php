@@ -39,8 +39,8 @@ class Fdt extends Migration
 			],
 			'progress'      => [
 				'type'           => 'ENUM',
-				'constraint'     => ['open', 'inprogress', 'close'],
-				'default'        => 'open',
+				'constraint'     => ['inprogress','finished','irrelevant'],
+				'default'        => 'inprogress',
 			],
 			'implementasi'       => [
 				'type'           => 'DATETIME'

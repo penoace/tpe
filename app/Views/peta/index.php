@@ -116,7 +116,7 @@
                             <h3 class="card-title">Peta Improvement Enjiniring</h3>
                             
                         </div>
-                        <?php if(has_permission('sub_admin') or has_permission('rcfa')){ ?>
+                        <?php if(has_permission('sub_admin') or has_permission('rcfa')or has_permission('fdt')){ ?>
                         <div class="col-sm-2 text-right">
                             <a href="<?= base_url('peta/input') ?>" class="btn btn-primary mt-2">Add</a>
                         </div>

@@ -81,6 +81,7 @@
                                     </select>
                                 </div>
                             </div>
+                            <?php if(has_permission('sub_admin')){ ?>
                             <div class="form-group clearfix">
                                 <label for="area">RCFA</label>
                                 <div class="icheck"><input type="checkbox" name="s_rcfa" id="s_rcfa">
@@ -106,6 +107,7 @@
                                     <option value="close">Close</option>
                                 </select>
                             </div>
+                            <?php } ?>
                         </div>
                         <!-- /.card-body -->
 

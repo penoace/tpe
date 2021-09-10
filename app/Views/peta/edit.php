@@ -74,11 +74,8 @@
                                 <label for="area">Pareto</label>
                                 <div class="select2-purple">
                                     <?php $eff = json_decode($peta['pareto'], true);
-                                    d($eff); ?>
-                                    <?=
-                                    cetakpareto($peta['pareto']);
-
-                                    ?>
+                                    //d($eff); ?>
+                                   
                                     <select class="select2" name="pareto[]" multiple="multiple" data-placeholder="Select a State" data-dropdown-css-class="select2-purple" style="width: 100%;">
                                         <?php foreach ($paretos as $pareto) : ?>
                                             <option value="<?= $pareto['id']; ?>" <?= (in_array($pareto['id'], $eff)) ? 'selected' : '' ?>><?= $pareto['pereto']; ?></option>
@@ -96,7 +93,7 @@
                                     </div>
                                     <input type="text" class="form-control" id="rcfa" name="rcfa" <?= ($peta['s_rcfa'] == 1) ? '' : 'disabled' ?> value="<?= $peta['rcfa']; ?>" placeholder="Enter RCFA">
                                 </div>
-                            <?php } ?>
+                            
 
                             <div class="form-group">
                                 <label for="area">PIC</label>
@@ -108,7 +105,7 @@
                                     <?php endforeach ?>
                                 </select>
                             </div>
-                            <?php if (has_permission('sub_admin')) { ?>
+                            
                                 <div class="form-group">
                                     <label for="area">Status</label>
                                     <select class="select2" name="status" data-placeholder="Select a Status" data-dropdown-css-class="select2-purple" style="width: 100%;">

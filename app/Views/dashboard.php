@@ -87,7 +87,7 @@ endforeach;
         maintainAspectRatio: false,
         scales: {
             xAxes: [{
-                stacked: true,
+                stacked: true
             }],
             yAxes: [{
                 stacked: true
@@ -99,6 +99,10 @@ endforeach;
                 labels: {
                     color: 'rgb(255, 99, 132)'
                 }
+            },
+            title: {
+                display: true,
+                text: 'Custom Chart Title'
             }
         }
     }
@@ -238,8 +242,42 @@ endforeach;
 <!-- Main row -->
 <div class="row">
     <!-- Left col -->
-    <section class="col-lg-7 connectedSortable">
+    <section class="col-lg-6 connectedSortable">
+        <!-- chart fdt -->
+        <div class="card px-0 mb-0">
+            <div class="card-header" style="text-align: center;padding:0;">
+                Grafik FDT
+            </div>
+            <div class="card-body" style="padding-bottom:0;padding-top:0;">
+                <canvas id="myChart" width="400" height="200"></canvas>
+            </div>
+        </div>
 
+        <!-- table FDT -->
+        <div class="card">
+            <div class="card-body p-3">
+                <table class="table table-sm text-xsmall">
+                    <tr>
+                        <th>Status</th>
+                        <?php foreach($chart as $usr):?>
+                            <th><?= $usr->username ?></th>
+                        <?php endforeach; ?>
+                    </tr>
+                    <tr>
+                        <td>Open</td>
+                        <?php foreach($chart as $usr):?>
+                            <th><?= cekopenfdt($usr->id) ?></th>
+                        <?php endforeach; ?>
+                    </tr>
+                    <tr>
+                        <td>Close</td>
+                        <?php foreach($chart as $usr):?>
+                            <th><?= cekclosefdt($usr->id) ?></th>
+                        <?php endforeach; ?>
+                    </tr>
+                </table>
+            </div>
+        </div>
         <!-- TO DO List -->
         <div class="card">
             <div class="card-header">
@@ -264,8 +302,6 @@ endforeach;
                     <?php foreach ($fdtlist as $list) : ?>
                         <?php if ($list['validasi'] != 'close') { ?>
                             <li>
-
-
                                 <!-- todo text -->
                                 <span class="text"><?= $list['deskripsi'] ?></span>
                                 <!-- Emphasis label -->
@@ -276,14 +312,53 @@ endforeach;
                                     <i class="fas fa-trash-o"></i>
                                 </div>
                             </li>
-
                     <?php }
                     endforeach ?>
-
                 </ul>
             </div>
             <!-- /.card-body -->
 
+        </div>
+        
+
+        <!-- /.card -->
+    </section>
+    <!-- /.Left col -->
+    <!-- right col (We are only adding the ID to make the widgets sortable)-->
+    <section class="col-lg-6 connectedSortable">
+        
+        <div class="card px-0 mb-0">
+            <div class="card-header" style="text-align: center;padding:0;">
+                Grafik RCFA
+            </div>
+            <div class="card-body" style="padding-bottom:0;padding-top:0;">
+                <canvas id="myChart2" width="400" height="200"></canvas>
+            </div>
+        </div>
+        <!-- table RCFA -->
+        <div class="card">
+            <div class="card-body p-3">
+                <table class="table table-sm text-xsmall">
+                    <tr>
+                        <th>Status</th>
+                        <?php foreach($chart2 as $usr):?>
+                            <th><?= $usr->username ?></th>
+                        <?php endforeach; ?>
+                    </tr>
+                    <tr>
+                        <td>Open</td>
+                        <?php foreach($chart2 as $usr):?>
+                            <th><?= cekopenrcfa($usr->id) ?></th>
+                        <?php endforeach; ?>
+                    </tr>
+                    <tr>
+                        <td>Close</td>
+                        <?php foreach($chart2 as $usr):?>
+                            <th><?= cekclosercfa($usr->id) ?></th>
+                        <?php endforeach; ?>
+                    </tr>
+                </table>
+            </div>
         </div>
         <div class="card">
             <div class="card-header">
@@ -328,30 +403,6 @@ endforeach;
             </div>
             <!-- /.card-body -->
 
-        </div>
-
-        <!-- /.card -->
-    </section>
-    <!-- /.Left col -->
-    <!-- right col (We are only adding the ID to make the widgets sortable)-->
-    <section class="col-lg-5 connectedSortable">
-        <div class="card">
-            <div class="card-header" style="text-align: center;">
-                Grafik FDT
-
-            </div>
-            <div class="card-body">
-                <canvas id="myChart" width="400" height="200"></canvas>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header" style="text-align: center;">
-                Grafik RCFA
-
-            </div>
-            <div class="card-body">
-                <canvas id="myChart2" width="400" height="200"></canvas>
-            </div>
         </div>
 
 

@@ -96,7 +96,6 @@ class Peta extends BaseController
             'id_area' => 'required',
             'effect' => 'required',
             'pareto' => 'required',
-            'status' => 'required'
         ]);
         $isDataValid = $validation->withRequest($this->request)->run();
         //dd($validation);
@@ -181,7 +180,6 @@ class Peta extends BaseController
             'id_area' => 'required',
             'effect' => 'required',
             'pareto' => 'required',
-            'status' => 'required'
         ]);
         $isDataValid = $validation->withRequest($this->request)->run();
 
@@ -202,7 +200,8 @@ class Peta extends BaseController
             if ($this->request->getPost('s_rcfa') == "on") {
                 $s_rcfa = 1;
             }
-            $peta->update($id, [
+            if(has_permission('sub_admin')){
+                $peta->update($id, [
                 "problem" => $this->request->getPost('problem'),
                 "id_area" => $this->request->getPost('id_area'),
                 "effect" => $this->request->getPost('effect'),
@@ -212,6 +211,15 @@ class Peta extends BaseController
                 "id_pic" => $this->request->getPost('id_pic'),
                 "status" => $this->request->getPost('status')
             ]);
+            }else{
+            $peta->update($id, [
+                "problem" => $this->request->getPost('problem'),
+                "id_area" => $this->request->getPost('id_area'),
+                "effect" => $this->request->getPost('effect'),
+                "pareto" => json_encode($this->request->getPost('pareto')),
+              
+            ]);
+            }
 
             return redirect()->to('/peta/index');
         }

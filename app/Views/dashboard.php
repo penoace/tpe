@@ -87,10 +87,15 @@ endforeach;
         maintainAspectRatio: false,
         scales: {
             xAxes: [{
-                stacked: true
+                stacked: true,
+                beginAtZero: true,
+                        callback: function (value) { if (Number.isInteger(value)) { return value; } },
+                        stepSize: 1
             }],
             yAxes: [{
-                stacked: true
+                stacked: true,
+               ticks: {
+            precision: 0,}
             }]
         },
         plugins: {

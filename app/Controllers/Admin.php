@@ -32,8 +32,8 @@ class Admin extends BaseController
 		//$data['users'] = $users->findAll();
 
 		$this->builder->select('users.id, username, email , auth_groups.name as group ');
-		$this->builder->join('auth_groups_users', 'auth_groups_users.user_id = users.id');
-		$this->builder->join('auth_groups', 'auth_groups.id = auth_groups_users.group_id');
+		$this->builder->join('auth_groups_users', 'auth_groups_users.user_id = users.id','LEFT');
+		$this->builder->join('auth_groups', 'auth_groups.id = auth_groups_users.group_id','LEFT');
 		$query = $this->builder->get();
 
 		$data['users'] = $query->getResult();

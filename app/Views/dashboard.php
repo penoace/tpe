@@ -89,13 +89,18 @@ endforeach;
             xAxes: [{
                 stacked: true,
                 beginAtZero: true,
-                        callback: function (value) { if (Number.isInteger(value)) { return value; } },
-                        stepSize: 1
+                callback: function(value) {
+                    if (Number.isInteger(value)) {
+                        return value;
+                    }
+                },
+                stepSize: 1
             }],
             yAxes: [{
                 stacked: true,
-               ticks: {
-            precision: 0,}
+                ticks: {
+                    precision: 0,
+                }
             }]
         },
         plugins: {
@@ -264,19 +269,19 @@ endforeach;
                 <table class="table table-sm text-xsmall">
                     <tr>
                         <th>Status</th>
-                        <?php foreach($chart as $usr):?>
+                        <?php foreach ($chart as $usr) : ?>
                             <th><?= $usr->username ?></th>
                         <?php endforeach; ?>
                     </tr>
                     <tr>
                         <td>Open</td>
-                        <?php foreach($chart as $usr):?>
+                        <?php foreach ($chart as $usr) : ?>
                             <th><?= cekopenfdt($usr->id) ?></th>
                         <?php endforeach; ?>
                     </tr>
                     <tr>
                         <td>Close</td>
-                        <?php foreach($chart as $usr):?>
+                        <?php foreach ($chart as $usr) : ?>
                             <th><?= cekclosefdt($usr->id) ?></th>
                         <?php endforeach; ?>
                     </tr>
@@ -324,14 +329,14 @@ endforeach;
             <!-- /.card-body -->
 
         </div>
-        
+
 
         <!-- /.card -->
     </section>
     <!-- /.Left col -->
     <!-- right col (We are only adding the ID to make the widgets sortable)-->
     <section class="col-lg-6 connectedSortable">
-        
+
         <div class="card px-0 mb-0">
             <div class="card-header" style="text-align: center;padding:0;">
                 Grafik RCFA
@@ -346,19 +351,19 @@ endforeach;
                 <table class="table table-sm text-xsmall">
                     <tr>
                         <th>Status</th>
-                        <?php foreach($chart2 as $usr):?>
+                        <?php foreach ($chart2 as $usr) : ?>
                             <th><?= $usr->username ?></th>
                         <?php endforeach; ?>
                     </tr>
                     <tr>
                         <td>Open</td>
-                        <?php foreach($chart2 as $usr):?>
+                        <?php foreach ($chart2 as $usr) : ?>
                             <th><?= cekopenrcfa($usr->id) ?></th>
                         <?php endforeach; ?>
                     </tr>
                     <tr>
                         <td>Close</td>
-                        <?php foreach($chart2 as $usr):?>
+                        <?php foreach ($chart2 as $usr) : ?>
                             <th><?= cekclosercfa($usr->id) ?></th>
                         <?php endforeach; ?>
                     </tr>
@@ -409,7 +414,6 @@ endforeach;
             <!-- /.card-body -->
 
         </div>
-
 
     </section>
     <!-- right col -->

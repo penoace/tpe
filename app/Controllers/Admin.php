@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+
 use App\Models\PermisionModel;
 use CodeIgniter\HTTP\IncomingRequest;
 
@@ -11,29 +12,28 @@ class Admin extends BaseController
 	{
 		$this->db = \Config\Database::connect();
 		$this->builder = $this->db->table('users');
-		
 	}
 
 	public function index()
 	{
 		$data['title'] = 'User List';
-		$data['breadcrumb_title'] = "User" ;
+		$data['breadcrumb_title'] = "User";
 		$data['breadcrumb']  =  array(
-            array(
-                'title' => 'Home',
-                'link' => 'dashboard'
-            ),
-            array(
-                'title' => 'Breadcrumb Title',
-                'link' => null
-            )
-        );
+			array(
+				'title' => 'Home',
+				'link' => 'dashboard'
+			),
+			array(
+				'title' => 'Breadcrumb Title',
+				'link' => null
+			)
+		);
 		//$users = new \Myth\Auth\Models\UserModel();
 		//$data['users'] = $users->findAll();
 
-		$this->builder->select('users.id, username, email , auth_groups.name as group ');
-		$this->builder->join('auth_groups_users', 'auth_groups_users.user_id = users.id','LEFT');
-		$this->builder->join('auth_groups', 'auth_groups.id = auth_groups_users.group_id','LEFT');
+		$this->builder->select('users.id, username, email , auth_groups.name as group ')->where('users.id !=', 1);
+		$this->builder->join('auth_groups_users', 'auth_groups_users.user_id = users.id', 'LEFT');
+		$this->builder->join('auth_groups', 'auth_groups.id = auth_groups_users.group_id', 'LEFT');
 		$query = $this->builder->get();
 
 		$data['users'] = $query->getResult();
@@ -43,18 +43,18 @@ class Admin extends BaseController
 	public function detail($id = 0)
 	{
 		$data['title'] = 'User Detail';
-		$data['breadcrumb_title'] = "User" ;
+		$data['breadcrumb_title'] = "User";
 		$data['breadcrumb']  =  array(
-            array(
-                'title' => 'Home',
-                'link' => 'dashboard'
-            ),
-            array(
-                'title' => 'Breadcrumb Title',
-                'link' => null
-            )
+			array(
+				'title' => 'Home',
+				'link' => 'dashboard'
+			),
+			array(
+				'title' => 'Breadcrumb Title',
+				'link' => null
+			)
 
-        );
+		);
 		//$users = new \Myth\Auth\Models\UserModel();
 		//$data['users'] = $users->findAll();
 
@@ -76,17 +76,17 @@ class Admin extends BaseController
 	public function edit($id = 0)
 	{
 		$data['title'] = 'User Edit';
-		$data['breadcrumb_title'] = "User" ;
+		$data['breadcrumb_title'] = "User";
 		$data['breadcrumb']  =  array(
-            array(
-                'title' => 'Home',
-                'link' => 'dashboard'
-            ),
-            array(
-                'title' => 'Breadcrumb Title',
-                'link' => null
-            )
-        );
+			array(
+				'title' => 'Home',
+				'link' => 'dashboard'
+			),
+			array(
+				'title' => 'Breadcrumb Title',
+				'link' => null
+			)
+		);
 		//$users = new \Myth\Auth\Models\UserModel();
 		//$data['users'] = $users->findAll();
 
@@ -108,21 +108,21 @@ class Admin extends BaseController
 	public function akses($id = 0)
 	{
 		$data['title'] = 'User Akses';
-		$data['breadcrumb_title'] = "User Akses" ;
+		$data['breadcrumb_title'] = "User Akses";
 		$data['breadcrumb']  =  array(
-            array(
-                'title' => 'Home',
-                'link' => 'dashboard'
-            ),
-            array(
-                'title' => 'Breadcrumb Title',
-                'link' => null
-            )
-        );
+			array(
+				'title' => 'Home',
+				'link' => 'dashboard'
+			),
+			array(
+				'title' => 'Breadcrumb Title',
+				'link' => null
+			)
+		);
 		//$users = new \Myth\Auth\Models\UserModel();
 		//$data['users'] = $users->findAll();
-		$permision= new PermisionModel();
-        $data['permisions'] = $permision->findAll();
+		$permision = new PermisionModel();
+		$data['permisions'] = $permision->findAll();
 
 		$this->builder->select('users.id, username, email  ');
 		//$this->builder->join('auth_groups_users', 'auth_groups_users.user_id = users.id');
@@ -139,8 +139,9 @@ class Admin extends BaseController
 		return view('admin/akses', $data);
 	}
 
-	public function changeaccess(){
-		
+	public function changeaccess()
+	{
+
 		$request = service('request');
 		$role_id = $request->getPost('roleid');
 		$user_id = $request->getPost('userid');
@@ -153,16 +154,14 @@ class Admin extends BaseController
 		$dbs = \Config\Database::connect();
 		$builders = $dbs->table('auth_users_permissions');
 		$builders->where($data);
-		$result = $builders->get(); 
+		$result = $builders->get();
 
-		if( !is_null($result->getRow()) < 1){
+		if (!is_null($result->getRow()) < 1) {
 			$builders->insert($data);
-		}else{
+		} else {
 			$builders->delete($data);
 		}
 
-		$this->session->setFlashdata('message','berhasil');
-		
+		$this->session->setFlashdata('message', 'berhasil');
 	}
-	
 }

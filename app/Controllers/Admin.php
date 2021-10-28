@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\PermisionModel;
 use CodeIgniter\HTTP\IncomingRequest;
+use App\Models\UserModel;
 
 class Admin extends BaseController
 {
@@ -31,9 +32,11 @@ class Admin extends BaseController
 		//$users = new \Myth\Auth\Models\UserModel();
 		//$data['users'] = $users->findAll();
 
-		$this->builder->select('users.id, username, email , auth_groups.name as group ')->where('users.id !=', 1);
+		$this->builder->select('users.id, username, email , auth_groups.name as group ');
 		$this->builder->join('auth_groups_users', 'auth_groups_users.user_id = users.id', 'LEFT');
 		$this->builder->join('auth_groups', 'auth_groups.id = auth_groups_users.group_id', 'LEFT');
+		$this->builder->where('users.deleted_at', NULL);
+		$this->builder->where('users.id != 1 ');
 		$query = $this->builder->get();
 
 		$data['users'] = $query->getResult();
@@ -163,5 +166,19 @@ class Admin extends BaseController
 		}
 
 		$this->session->setFlashdata('message', 'berhasil');
+	}
+
+	public function delete($id)
+	{
+
+
+		$data = [
+			'id' => $id
+		];
+		$users = new UserModel();
+
+		$users->delete($data);
+
+		return redirect()->to('/admin');
 	}
 }

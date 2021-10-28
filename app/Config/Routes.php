@@ -39,6 +39,7 @@ $routes->get('/admin/(:num)', 'Admin::detail/$1', ['filter' => 'role:admin']);
 $routes->get('/admin/edit/(:num)', 'Admin::edit/$1', ['filter' => 'role:admin']);
 $routes->get('/admin/akses/(:num)', 'Admin::akses/$1', ['filter' => 'role:admin']);
 $routes->get('/admin/changeaccess', 'Admin::changeaccess', ['filter' => 'role:admin']);
+$routes->get('/admin/delete/(:num)', 'Admin::delete/$1', ['filter' => 'role:admin']);
 /*
  * --------------------------------------------------------------------
  * Additional Routing

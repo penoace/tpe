@@ -26,8 +26,9 @@
                 <td><?= $user->email; ?></td>
                 <td><?= $user->group; ?></td>
                 <td>
-                    <a href="<?= base_url('admin/'.$user->id);?>" class="btn btn-info">detail</a> 
-                    <a href="<?= base_url('admin/akses/'.$user->id);?>" class="btn btn-info">edit</a>   
+                    <a href="<?= base_url('admin/'.$user->id);?>" class="btn btn-success">detail</a> 
+                    <a href="<?= base_url('admin/akses/'.$user->id);?>" class="btn btn-info">edit</a>
+                    <a href="<?= base_url('admin/delete/'.$user->id);?>" class="btn btn-danger"><i class="nav-icon fas fa-trash"></i></a>    
                 </td>
                 </tr>
                 <?php endforeach; ?>
